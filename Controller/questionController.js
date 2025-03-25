@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const dbconnection = require("../db/dbConfig");
+const dbconnection = require("../db/dbconfig");
 const { v4: uuidv4 } = require("uuid"); // Add uuid package for questionid
 const authMiddleware = require("../middleware/authMiddleware");
 const { StatusCodes } = require("http-status-codes");
