@@ -8,7 +8,7 @@ const app = express();
 const PORT = 6063;
 
 // Import db connection
-const dbconnection = require("./db/dbConfig");
+const dbconnection = require("./db/dbconfig");
 
 // To let cross browser resource sharing
 const cors = require("cors");
