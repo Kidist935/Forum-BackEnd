@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const dbconnection = require("../db/dbconfig");
-const { v4: uuidv4 } = require("uuid"); 
 const { StatusCodes } = require("http-status-codes");
 
 
 async function postingAnswer(req, res) {
+  
   const { questionid, answer } = req.body;
   try {
     if (!req.user || !req.user.userid) {
@@ -53,8 +53,8 @@ async function postingAnswer(req, res) {
 
 async function gettingAnswer(req, res) {
   try {
-
-    const questionid = req.params.questionid; // Convert to integer
+     // Convert to integer
+    const questionid = req.params.questionid; 
 
     const [question] = await dbconnection.query(
       "SELECT * FROM questions WHERE questionid = ?",
@@ -71,7 +71,7 @@ async function gettingAnswer(req, res) {
        FROM answers a
        JOIN users u ON a.userid = u.userid
        WHERE a.questionid = ?`,
-      // "SELECT * FROM answers WHERE questionid = ?",
+      
        [questionid]
     );
 

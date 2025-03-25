@@ -52,6 +52,7 @@ async function gettingAllQuestion(req, res) {
        JOIN users ON questions.userid = users.userid ORDER BY id DESC`
     );
     res.json(questions);
+
   } catch (err) {
     console.error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Server error" });
@@ -68,17 +69,14 @@ async function gettingSingleQuestion(req, res) {
   }
 
   try {
-    console.log("Received questionid:", questionid); // Debugging
-
+   
     // Query the database for the question
     const [questions] = await dbconnection.query(
       "SELECT id, questionid, title, description, tag FROM questions WHERE questionid = ?",
       [questionid.trim()] // Trim any extra spaces
     );
 
-    console.log("Fetched question:", questions); // Debugging
-
-    if (!questions) {
+       if (!questions) {
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ msg: "Question not found" });
@@ -86,7 +84,7 @@ async function gettingSingleQuestion(req, res) {
 
     return res.status(StatusCodes.OK).json({ question: questions[0] });
   } catch (error) {
-    console.error("Error fetching question:", error.message);
+   
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ msg: "Something went wrong, try again later!" });

@@ -38,7 +38,6 @@ async function register(req, res) {
     );
     return res.status(StatusCodes.OK).json({ msg: "User registered successfully" });
   } catch (error) {
-    console.log(error.message);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "An unexpected error occurred." });
   }
 }
