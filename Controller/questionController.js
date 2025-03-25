@@ -5,13 +5,11 @@ const { v4: uuidv4 } = require("uuid"); // Add uuid package for questionid
 const authMiddleware = require("../middleware/authMiddleware");
 const { StatusCodes } = require("http-status-codes");
 
-////1/////////////////////////////////////postingQuestion
+//postingQuestion
 
 async function postingQuestion(req, res) {
-  
   const { title, description, tag } = req.body;
   try {
-
     // Ensure user is authenticated and userid exists
     if (!req.user || !req.user.userid) {
       return res
@@ -87,7 +85,6 @@ async function gettingSingleQuestion(req, res) {
     }
 
     return res.status(StatusCodes.OK).json({ question: questions[0] });
-    
   } catch (error) {
     console.error("Error fetching question:", error.message);
     return res
