@@ -3,13 +3,13 @@ const router = express.Router();
 const dbconnection = require("../db/dbconfig");
 const { StatusCodes } = require("http-status-codes");
 
-
 async function postingAnswer(req, res) {
-  
   const { questionid, answer } = req.body;
   try {
     if (!req.user || !req.user.userid) {
-      return res.status(StatusCodes.UNAUTHORIZED).json({ msg: "User not authenticated" });
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ msg: "User not authenticated" });
     }
     if (!questionid || !answer) {
       return res
@@ -28,7 +28,9 @@ async function postingAnswer(req, res) {
       [questionid]
     );
     if (question.length === 0) {
-      return res.status(StatusCodes.NOT_FOUND).json({ msg: "Question not found" });
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ msg: "Question not found" });
     }
 
     const [result] = await dbconnection.query(
@@ -44,17 +46,15 @@ async function postingAnswer(req, res) {
 
     res.status(StatusCodes.CREATED).json(newAnswer[0]);
   } catch (err) {
-    
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Server error" });
   }
-  
 }
 ///2/ getting answer for a question /////
 
 async function gettingAnswer(req, res) {
   try {
-     // Convert to integer
-    const questionid = req.params.questionid; 
+    // Convert to integer
+    const questionid = req.params.questionid;
 
     const [question] = await dbconnection.query(
       "SELECT * FROM questions WHERE questionid = ?",
@@ -62,22 +62,23 @@ async function gettingAnswer(req, res) {
     );
 
     if (question.length === 0) {
-      return res.status(StatusCodes.NOT_FOUND).json({ msg: "Question not found" });
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ msg: "Question not found" });
     }
 
     const [answers] = await dbconnection.query(
-      
-  `SELECT a.answerid, a.answer, a.userid, u.username
-       FROM answers a
-       JOIN users u ON a.userid = u.userid
-       WHERE a.questionid = ?`,
-      
-       [questionid]
+      `SELECT answers.answerid, answers.answer, answers.userid, users.username
+FROM answers
+JOIN users ON answers.userid = users.userid
+WHERE answers.questionid = ?
+`,
+      [questionid]
     );
 
     res.status(StatusCodes.OK).json({ question: question[0], answers });
+    
   } catch (err) {
-   
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Server error" });
   }
 }
