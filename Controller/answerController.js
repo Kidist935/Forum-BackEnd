@@ -4,6 +4,7 @@ const dbconnection = require("../db/dbconfig");
 const { StatusCodes } = require("http-status-codes");
 
 async function postingAnswer(req, res) {
+  // extract from request body
   const { questionid, answer } = req.body;
   try {
     if (!req.user || !req.user.userid) {
